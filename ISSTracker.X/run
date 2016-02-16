@@ -1,0 +1,72 @@
+/*******************************************************************
+ * Processor:       PIC18F4520
+ * Compiler:        MPLAB C18
+ *
+ * This file does the following....
+ *
+ * Author (Your name here)
+ ********************************************************************/
+
+/** Header Files ***************************************************/
+#include <p18f4520.h>
+#include <stdio.h>
+#include <adc.h>
+
+/** Configuration Bits *********************************************/
+#pragma config OSC = INTIO67
+#pragma config WDT = OFF
+#pragma config LVP = OFF
+#pragma config BOREN = OFF
+#pragma config XINST = OFF
+
+/** Define Constants Here ******************************************/
+#define SAMPLE 100
+
+/** Local Function Prototypes **************************************/
+void sampleFunction(void);
+
+/** Global Variables ***********************************************/
+int sampleVariable = 0;
+
+/*******************************************************************
+ * Function:        void main(void)
+ ********************************************************************/
+#pragma code
+
+void main(void) {
+    // Set the clock to 4 MHz
+    OSCCONbits.IRCF2 = 1;
+    OSCCONbits.IRCF1 = 1;
+    OSCCONbits.IRCF0 = 0;
+
+    // Pin IO Setup
+    OpenADC(ADC_FOSC_8 & ADC_RIGHT_JUST & ADC_12_TAD,
+            ADC_CH0 & ADC_INT_OFF & ADC_REF_VDD_VSS,
+            0x0B); // Four analog pins
+    TRISA = 0xFF; // All of PORTA input
+    TRISB = 0xFF; // All of PORTB input
+    TRISC = 0x00; // All of PORTC output
+    TRISD = 0x00; // All of PORTD output
+    PORTC = 0x00; // Turn off all 8 Port C outputs
+
+    // This area happens once
+    // Good for initializing and things that need to happen once
+
+    while (1) {
+        // This area loops forever
+    }
+}
+
+/*******************************************************************
+ * Additional Helper Functions
+ ********************************************************************/
+
+/*******************************************************************
+ * Function:			void sample(void)
+ * Input Variables:	none
+ * Output Return:	none
+ * Overview:			Use a comment block like this before functions
+ ********************************************************************/
+void sampleFunction() {
+    // Some function that does a specific task
+}
